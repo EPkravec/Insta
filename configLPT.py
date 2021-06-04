@@ -1,6 +1,9 @@
 
 
 base_user = {
+    'user0': [
+        {'my_login': 'olga_domarabota'},
+        {'my_password': ''}],
     'user1': [
         {'my_login': 'Rabota_v_dekreteizdoma'},
         {'my_password': '123456789q'}],

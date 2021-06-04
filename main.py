@@ -6,7 +6,7 @@ from selenium import webdriver
 
 from configLPT import my_tags
 
-# from multiprocessing import Process
+from multiprocessing import Process
 
 pars_chek = False
 
@@ -145,13 +145,19 @@ class LogicInstagramm:
 
 
 if __name__ == '__main__':
-    a = LogicInstagramm('dekret_rabota_olga', '123456789q')
-    a.insta()
+    def user1():
+        a = LogicInstagramm('Rabota_v_dekreteizdoma', '123456789q')
+        a.insta()
 
-# a.go_instagramm()
-#     a = Process(target=job)
-#     a.start()
-#     b = Process(target=job)
-#     b.start()
-#     c = Process(target=job)
-#     c.start()
+    def user2():
+        a = LogicInstagramm('dekret_rabota_olga', '123456789q')
+        a.insta()
+
+    def user3():
+        a = LogicInstagramm('rabo.tavradosti', '123456789qQ')
+        a.insta()
+
+    Process(target=user1).start()
+    Process(target=user2).start()
+    Process(target=user3).start()
+

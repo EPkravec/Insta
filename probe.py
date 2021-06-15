@@ -191,6 +191,7 @@ class LogicInstagramm:
                 f'{self.datatime} [{self.login}] - лайк за час [{i}/{self.max_like_hour}] за сутки [{k}/{self.max_like_day}]')
             print(f'{self.datatime} [{self.login}] - Лайк по тегу [{my_hashtags}] адрес - {url}')
             sleep(self.time_sleep_like)
+            # todo сделать условие проверки наличия ссылок для лайков, переходов и прочее
             if i >= self.max_like_hour:
                 print(f'{self.datatime} [{self.login}] - Дастигнут часовой лимит лайков [{i}/{self.max_like_hour}]')
                 i = 0

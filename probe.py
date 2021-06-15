@@ -1,18 +1,16 @@
-import time
+
 
 import random
 import time
-import os
-from datetime import datetime
 from time import sleep
 from selenium import webdriver
 from multiprocessing import Process
-from selenium.webdriver.common.keys import Keys
+
 
 from configLPT import my_tags
 
 pars_chek = False  # переменая для контроля спарсеных данный с сайта проверки настроек браузера на ликвидность
-sesion_clos = True
+
 
 
 class LogicInstagramm:
@@ -156,73 +154,58 @@ class LogicInstagramm:
 
         poisk = True
         while poisk:
-            hrefs = browser.find_elements_by_tag_name('a')
-            post_urls = [item.get_attribute('href') for item in hrefs if 'https://www.instagram.com/p/' in item.get_attribute('href')]
-            print(f' 1 ---- {len(post_urls)}')
-            print(f' 1 ---- {len(set(post_urls))}')
-            print(f' 1.5 ---- {post_urls}')
-            browser.execute_script('window.scrollTo(0, document.body.scrollHeight);')
-            print(f' 2 ---- {len(post_urls)}')
-            print(f' 2 ---- {len(set(post_urls))}')
-            print(f' 2.5 ---- {post_urls}')
+            browser.execute_script("window.scrollBy(0,2000)")
+            new_height = browser.execute_script("return document.body.scrollHeight")
             sleep(self.time_sleep_scroll)
+
             hrefs = browser.find_elements_by_tag_name('a')
-            post_urls = [item.get_attribute('href') for item in hrefs if 'https://www.instagram.com/p/' in item.get_attribute('href')]
-            print(f' 3 ---- {len(post_urls)}')
-            print(f' 3 ---- {len(set(post_urls))}')
-            print(f' 3.5 ---- {post_urls}')
+            post_urls = []
+            for item in hrefs:
+                href = item.get_attribute('href')
+                if '/p/' in href:
+                    post_urls.append(href)
 
-            # post_urls = set(post_urls)
-            # post_urls = list(post_urls)
-
-            # print(f' 2 ---- {len(post_urls)}')
-            # print(f' 2.5 ---- {post_urls}')
-
-            if len(post_urls) > self.max_like_day + self.ignore_link:
+            if len(post_urls) > 50:  # todo  времнное значение, больше 54 ссылок не могу спарсить
                 count_scroll = self.count_scroll
                 self.count_scroll = count_scroll
-                print(f'{self.datatime} [{self.login}] - Мне хватит работы, {self.max_like_hour} лайка в час, фоток для работы - {len(post_urls)}')
+                print(
+                    f'{self.datatime} [{self.login}] - {self.max_like_hour} лайка в час, Ссылок для работы - {len(post_urls)}')
                 del post_urls[0:self.ignore_link]
                 poisk = False
             else:
-
-                print(f'{self.datatime} [{self.login}] - Подкину себе еще работы, пока фоток для работы - {len(post_urls)} не хвататет')
-                # post_urls.clear()
                 continue
 
-        # i = 0  # часовой счетчик лайка
-        # j = 0  # суточный счетчик лайка
-        # k = 0 # общий счетчик лайка
-        # print(f' 4 ---- {post_urls}')
-        #
-        #
-        # for url in post_urls:
-        #     browser.get(url)
-        #     sleep(self.time_sleep)
-        #     browser.find_element_by_xpath(
-        #         '/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[1]/span[1]/button').click()
-        #     i += 1
-        #     j += 1
-        #     k += 1
-        #     print(f'{self.datatime} [{self.login}] - лайк за час [{i}/{self.max_like_hour}] за сутки [{k}/{self.max_like_day}]')
-        #     print(f'{self.datatime} [{self.login}] - Лайк по тегу [{my_hashtags}] адрес - {url}')
-        #     sleep(self.time_sleep_like)
-        #     if i >= self.max_like_hour:
-        #         print(f'{self.datatime} [{self.login}] - Дастигнут часовой лимит лайков [{i}/{self.max_like_hour}]')
-        #         i = 0
-        #         sleep(self.time_sleep_like * 2)
-        #         continue
-        #     elif i >= self.max_like_day:
-        #         print(f'{self.datatime} [{self.login}] - Дастигнут суточный лимит лайков [{k}/{self.max_like_day}]')
-        #         j = 0
-        #         sleep(self.time_sleep_like)
-        #         print(f'{self.datatime} [{self.login}] - Пора отдохнуть или придумать новые настройки')
-        #         sesion_clos = False
-        #         browser.close()
-        #         browser.quit()
-        #         break
-        #     else:
-        #         continue
+        i = 0  # часовой счетчик лайка
+        j = 0  # суточный счетчик лайка
+        k = 0  # общий счетчик лайка
+
+        for url in post_urls:
+            browser.get(url)
+            sleep(self.time_sleep)
+            browser.find_element_by_xpath(
+                '/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[1]/span[1]/button').click()
+            i += 1
+            j += 1
+            k += 1
+            print(
+                f'{self.datatime} [{self.login}] - лайк за час [{i}/{self.max_like_hour}] за сутки [{k}/{self.max_like_day}]')
+            print(f'{self.datatime} [{self.login}] - Лайк по тегу [{my_hashtags}] адрес - {url}')
+            sleep(self.time_sleep_like)
+            if i >= self.max_like_hour:
+                print(f'{self.datatime} [{self.login}] - Дастигнут часовой лимит лайков [{i}/{self.max_like_hour}]')
+                i = 0
+                sleep(self.time_sleep_like * 2)
+                continue
+            elif i >= self.max_like_day:
+                print(f'{self.datatime} [{self.login}] - Дастигнут суточный лимит лайков [{k}/{self.max_like_day}]')
+                j = 0
+                sleep(self.time_sleep_like)
+                print(f'{self.datatime} [{self.login}] - Пора отдохнуть или придумать новые настройки')
+                browser.close()
+                browser.quit()
+                break
+            else:
+                continue
 
 
 def run(login, password):
@@ -248,8 +231,8 @@ def run(login, password):
 
 
 if __name__ == "__main__":
-    # Process(target=run, args=('Rabota_v_dekreteizdoma', '123456789q')).start()
-    # sleep(5)
-    # Process(target=run, args=('dekret_rabota_olga', '123456789q')).start()
-    # sleep(5)
+    Process(target=run, args=('Rabota_v_dekreteizdoma', '123456789q')).start()
+    sleep(5)
+    Process(target=run, args=('dekret_rabota_olga', '123456789q')).start()
+    sleep(5)
     Process(target=run, args=('rabo.tavradosti', '123456789qQ')).start()

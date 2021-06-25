@@ -190,7 +190,7 @@ class LogicInstagramm:
             browser.find_element_by_xpath(
                 '/html/body/div[1]/section/main/div/div[1]/article/header/div[2]/div[1]/div').click()
             sleep(self.time_sleep)
-            # заходим на акаутн
+            # заходим на акаутн1
             browser.find_element_by_xpath(
                 '/html/body/div[1]/section/main/div/div[1]/article/header/div[2]/div[1]/div/span/a').click()
             sleep(self.time_sleep)

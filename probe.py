@@ -14,10 +14,7 @@ from selenium.webdriver.common.keys import Keys
 from configLPT import my_tags, my_coments
 
 pars_chek = False  # переменая для контроля спарсеных данный с сайта проверки настроек браузера на ликвидность
-logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%m-%Y %H:%M:%S')
 
-
-# todo разобраться со временем
 def datatime_m():
     """
     Ф-я отображения времени ( не работате ((( )))
@@ -260,7 +257,8 @@ class LogicInstagramm:
 
                     count_like_button.click()
                     sleep(3)
-                    # todo нужно продумать скролинг и те ссылки которые он парсит ниже
+                    # todo нужно продумать скролинг и те ссылки которые он парсит ниже alert = driver.switch_to_alert() &&&
+                    #  фокус в селениум на эту iframe - используя webdriver.switchTo().frame(...)
                     a = browser.find_element_by_xpath('/html/body/div[5]/div/div/div[2]/div/div')
                     like_pipl_urls = []
                     # todo нужно продумать скролинг и те ссылки которые он парсит ниже проблема с с тем что заходим
@@ -317,7 +315,7 @@ class LogicInstagramm:
                         print(f'{datatime_m()} [{self.login}] - Заходим в гости к - {pipl_new}')
                         browser.get(pipl_new)
                         sleep(self.time_sleep)
-
+                        # todo лучше сделать через иф browser. //// == 'это ....'
                         try:
                             browser.find_element_by_xpath(
                                 '/html/body/div[1]/div/div/section/main/div/div[2]/article/div/div/h2').text = 'Это закрытый аккаунт'
@@ -380,7 +378,8 @@ class LogicInstagramm:
                             sleep(self.time_sleep)
                             # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                             browser.find_element_by_css_selector('button[class="wpO6b  "]').click()
-                            comment = browser.find_element_by_class_name("Ypffh")
+                            sleep(2)
+                            comment = browser.find_element_by_xpath('/html/body/div[1]/div/div/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea').click()
                             comment.send_keys(my_coments)
                             ckick = browser.find_element_by_css_selector('button[type="submit"]')
                             ckick.click()

@@ -168,10 +168,7 @@ class LogicInstagramm:
             my_hashtags = self.tags()
             my_coments = self.coments()
             print(f'{datatime_m()} [{self.login}] - Используем тег - [{my_hashtags}]')
-            sleep(2)
             print(f'{datatime_m()} [{self.login}] - Используем сообщение - [{my_coments}]')
-            sleep(2)
-            print(f'{datatime_m()} [{self.login}] - дубль - [{my_coments}]')
             browser.get(f'https://www.instagram.com/explore/tags/{my_hashtags}/')
             sleep(self.time_sleep_scroll)
 

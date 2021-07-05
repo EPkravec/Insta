@@ -1,5 +1,8 @@
 import random
+import logging
 import time
+import datetime
+from datetime import datetime
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.remote.webelement import WebElement
@@ -11,6 +14,19 @@ from selenium.webdriver.common.keys import Keys
 from configLPT import my_tags, my_coments
 
 pars_chek = False  # переменая для контроля спарсеных данный с сайта проверки настроек браузера на ликвидность
+logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%m-%Y %H:%M:%S')
+
+
+# todo разобраться со временем
+def datatime_m():
+    """
+    Ф-я отображения времени ( не работате ((( )))
+    :return:
+    """
+    while 1:
+        CurrentTime = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
+        break
+    return CurrentTime
 
 
 class LogicInstagramm:
@@ -37,15 +53,7 @@ class LogicInstagramm:
         self.min_time_wait_for_like = (60 // self.max_like_hour) * 60
         self.time_sleep_like: int = random.randint(self.min_time_wait_for_like - 20, self.min_time_wait_for_like + 20)
         self.count_scroll: int = 1  # 12 шт за один скролл в теории
-        self.datatime = self.datatime()
 
-    def datatime(self):
-        """
-        Ф-я отображения времени ( не работате ((( )))
-        :return:
-        """
-        while True:
-            return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
     def options_argument(self):
         """
@@ -82,12 +90,12 @@ class LogicInstagramm:
         g = _browser.find_element_by_id("languages-result").value_of_css_property('background-color')
 
         if a == b == c == d == e == g == 'rgba(200, 216, 109, 1)':
-            print(f'{self.datatime} [{self.login}] - user_agent_result - OK')
-            print(f'{self.datatime} [{self.login}] - webdriver_result - OK')
-            print(f'{self.datatime} [{self.login}] - chrome_result - OK')
-            print(f'{self.datatime} [{self.login}] - permissions_result -OK')
-            print(f'{self.datatime} [{self.login}] - plugins_length_result - OK')
-            print(f'{self.datatime} [{self.login}] - languages_result - OK')
+            print(f'{datatime_m()} [{self.login}] - user_agent_result - OK')
+            print(f'{datatime_m()} [{self.login}] - webdriver_result - OK')
+            print(f'{datatime_m()} [{self.login}] - chrome_result - OK')
+            print(f'{datatime_m()} [{self.login}] - permissions_result -OK')
+            print(f'{datatime_m()} [{self.login}] - plugins_length_result - OK')
+            print(f'{datatime_m()} [{self.login}] - languages_result - OK')
             _browser.close()
             _browser.quit()
             sleep(5)
@@ -95,8 +103,8 @@ class LogicInstagramm:
             return pars_chek
         else:
             print(
-                f'{self.datatime} [{self.login}] - Инстаграмм будет видеть вас как бота, нужно проверить options_argument')
-            print(f'{self.datatime} [{self.login}] - Бот запускать не буду ;)')
+                f'{datatime_m()} [{self.login}] - Инстаграмм будет видеть вас как бота, нужно проверить options_argument')
+            print(f'{datatime_m()} [{self.login}] - Бот запускать не буду ;)')
             _browser.close()
             _browser.quit()
 
@@ -157,13 +165,13 @@ class LogicInstagramm:
         sleep(self.time_sleep_login)
 
         while True:
-
             my_hashtags = self.tags()
             my_coments = self.coments()
-
-            print(f'{self.datatime} [{self.login}] - Используем тег - [{my_hashtags}]')
-            print(f'{self.datatime} [{self.login}] - Используем сообщение - [{my_coments}]')
-
+            print(f'{datatime_m()} [{self.login}] - Используем тег - [{my_hashtags}]')
+            sleep(2)
+            print(f'{datatime_m()} [{self.login}] - Используем сообщение - [{my_coments}]')
+            sleep(2)
+            print(f'{datatime_m()} [{self.login}] - дубль - [{my_coments}]')
             browser.get(f'https://www.instagram.com/explore/tags/{my_hashtags}/')
             sleep(self.time_sleep_scroll)
 
@@ -185,11 +193,11 @@ class LogicInstagramm:
                 post_urls = list(post_urls)
 
                 if len(post_urls) > 53:  # todo времнное значение, больше 54 ссылок не могу спарсить
-                    print(f'{self.datatime} [{self.login}] - Ссылок для работы - {len(post_urls)}')
-                    print(f'{self.datatime} [{self.login}] - Список ссылок {post_urls}')
+                    print(f'{datatime_m()} [{self.login}] - Ссылок для работы - {len(post_urls)}')
+                    print(f'{datatime_m()} [{self.login}] - Список ссылок {post_urls}')
                     poisk = False
                 else:
-                    print(f'{self.datatime} [{self.login}] - Ссылок не хватает - {len(post_urls)}, поищу еще')
+                    print(f'{datatime_m()} [{self.login}] - Ссылок не хватает - {len(post_urls)}, поищу еще')
                     continue
             ac = 0  # счетчик ссылок на акаунты тех кто лайкнул
             link = 0  # счетчик ссылок полученных с тега
@@ -199,24 +207,24 @@ class LogicInstagramm:
 
             for url in post_urls:
                 browser.get(url)
-                print(f'{self.datatime} [{self.login}] - Идем по ссылке с тегов - {url}')
+                print(f'{datatime_m()} [{self.login}] - Идем по ссылке с тегов - {url}')
                 sleep(self.time_sleep)
 
                 try:
                     browser.find_element_by_css_selector('a[class="sqdOP yWX7d     _8A5w5   ZIAjV "]').click()
-                    print(f'{self.datatime} [{self.login}] - Зашли на аккаунт пользователя этой фотографии {url}')
+                    print(f'{datatime_m()} [{self.login}] - Зашли на аккаунт пользователя этой фотографии {url}')
                     sleep(self.time_sleep)
                     link += 1
                 except:
-                    print(f'{self.datatime} [{self.login}] - Перейти по ссылке не удалось беру следующую')
+                    print(f'{datatime_m()} [{self.login}] - Перейти по ссылке не удалось беру следующую')
                     link += 1
                     continue
 
                 if link == post_urls:
-                    print(f'{self.datatime} [{self.login}] - Использованы все ссылки с тега, ищем по новому тегу')
+                    print(f'{datatime_m()} [{self.login}] - Использованы все ссылки с тега, ищем по новому тегу')
                     continue
 
-                print(f'{self.datatime} [{self.login}] - Ищем ссылки на фото в аке выбираем фото (одно)')
+                print(f'{datatime_m()} [{self.login}] - Ищем ссылки на фото в аке выбираем фото (одно)')
                 hrefs_foto_account = browser.find_elements_by_tag_name('a')
                 post_urls_foto_account = []
                 for i in hrefs_foto_account:
@@ -224,34 +232,34 @@ class LogicInstagramm:
                     if '/p/' in href_foto_account:
                         post_urls_foto_account.append(href_foto_account)
                 print(
-                    f'{self.datatime} [{self.login}] - Фото выбрали, смотрим кто лайкал {post_urls_foto_account[0:1]}')
+                    f'{datatime_m()} [{self.login}] - Фото выбрали, смотрим кто лайкал {post_urls_foto_account[0:1]}')
                 for url_foto_account in post_urls_foto_account[0:1]:
                     browser.get(url_foto_account)
-                    print(f'{self.datatime} [{self.login}] - Смотрим количество лайков под фото')
+                    print(f'{datatime_m()} [{self.login}] - Смотрим количество лайков под фото')
                     sleep(self.time_sleep)
                     try:
                         count_like_button = browser.find_element_by_xpath(
                             '/html/body/div[1]/div/div/section/main/div/div[1]/article/div[3]/section[2]/div/div/a/span')
                     except:
                         print(
-                            f'{self.datatime} [{self.login}] - Не нашли количество лайков берем другую ссылку с тегов')
+                            f'{datatime_m()} [{self.login}] - Не нашли количество лайков берем другую ссылку с тегов')
                         link += 1
                         break
                     if count_like_button:
                         count_like_button_text = count_like_button.text
                         count_like = int(count_like_button_text.split(' ')[0])
-                        print(f'{self.datatime} [{self.login}] - Количество лайков под фото - {count_like}')
+                        print(f'{datatime_m()} [{self.login}] - Количество лайков под фото - {count_like}')
                         if count_like < 12:
                             loop_count = 12
                         else:
                             loop_count = int(count_like / 12)
                     else:
                         print(
-                            f'{self.datatime} [{self.login}] - Не нашли количество лайков берем другую ссылку с тегов')
+                            f'{datatime_m()} [{self.login}] - Не нашли количество лайков берем другую ссылку с тегов')
                         link += 1
                         break
                     print(
-                        f'{self.datatime} [{self.login}] - Создаем список всех кто лайкнул {post_urls_foto_account[0:1]}')
+                        f'{datatime_m()} [{self.login}] - Создаем список всех кто лайкнул {post_urls_foto_account[0:1]}')
 
                     count_like_button.click()
                     sleep(3)
@@ -275,8 +283,8 @@ class LogicInstagramm:
                     like_pipl_urls = set(like_pipl_urls)
                     like_pipl_urls = list(like_pipl_urls)
 
-                    print(f'{self.datatime} [{self.login}] - Ссылки на тех кто лайкнул {like_pipl_urls}')
-                    print(f'{self.datatime} [{self.login}] - Количество ссылок {len(like_pipl_urls)}')
+                    print(f'{datatime_m()} [{self.login}] - Ссылки на тех кто лайкнул {like_pipl_urls}')
+                    print(f'{datatime_m()} [{self.login}] - Количество ссылок {len(like_pipl_urls)}')
                     for i in range(0, len(like_pipl_urls)):
                         for pipl in like_pipl_urls:
                             if '/explore/' in pipl:
@@ -304,19 +312,19 @@ class LogicInstagramm:
                             if 'https://www.instagram.com/' == pipl:
                                 like_pipl_urls.remove(pipl)
 
-                    print(f'{self.datatime} [{self.login}] - Обработаные ссылки на тех кто лайкнул {like_pipl_urls}')
-                    print(f'{self.datatime} [{self.login}] - Обработаное количество ссылок {len(like_pipl_urls)}')
+                    print(f'{datatime_m()} [{self.login}] - Обработаные ссылки на тех кто лайкнул {like_pipl_urls}')
+                    print(f'{datatime_m()} [{self.login}] - Обработаное количество ссылок {len(like_pipl_urls)}')
 
                     for pipl_new in like_pipl_urls:
 
-                        print(f'{self.datatime} [{self.login}] - Заходим в гости к - {pipl_new}')
+                        print(f'{datatime_m()} [{self.login}] - Заходим в гости к - {pipl_new}')
                         browser.get(pipl_new)
                         sleep(self.time_sleep)
 
                         try:
                             browser.find_element_by_xpath(
                                 '/html/body/div[1]/div/div/section/main/div/div[2]/article/div/div/h2').text = 'Это закрытый аккаунт'
-                            print(f'{self.datatime} [{self.login}] - Аккаунт - {pipl_new}  закрытый, идем к следующему')
+                            print(f'{datatime_m()} [{self.login}] - Аккаунт - {pipl_new}  закрытый, идем к следующему')
                             ac += 1
                             break
                         except:
@@ -325,7 +333,7 @@ class LogicInstagramm:
                             browser.find_element_by_xpath(
                                 '/html/body/div[1]/section/main/div/div[2]/article/div[1]/div/div[2]/h1').text = 'Публикаций пока нет'
                             print(
-                                f'{self.datatime} [{self.login}] - Аккаунт - {pipl_new} Публикаций нет, идем к следующему')
+                                f'{datatime_m()} [{self.login}] - Аккаунт - {pipl_new} Публикаций нет, идем к следующему')
                             ac += 1
                             break
                         except:
@@ -334,7 +342,7 @@ class LogicInstagramm:
                             browser.find_element_by_xpath(
                                 '/html/body/div[1]/section/main/div/div/h2').text = 'К сожалению, эта страница недоступна.'
                             print(
-                                f'{self.datatime} [{self.login}] - Аккаунт - {pipl_new} страница недоступна, идем к следующей')
+                                f'{datatime_m()} [{self.login}] - Аккаунт - {pipl_new} страница недоступна, идем к следующей')
                             ac += 1
                             break
                         except:
@@ -342,48 +350,51 @@ class LogicInstagramm:
 
                         if ac == len(like_pipl_urls):
                             print(
-                                f'{self.datatime} [{self.login}] - Закончились все кто лайкал идем на следую ссылку тега')
+                                f'{datatime_m()} [{self.login}] - Закончились все кто лайкал идем на следую ссылку тега')
                             link += 1
                             break
-                        print(f'{self.datatime} [{self.login}] - Начинается магия | подписка | коменты | лайки |')
+                        print(f'{datatime_m()} [{self.login}] - Начинается магия | подписка | коменты | лайки |')
 
                         button = browser.find_element_by_xpath(
                             '/html/body/div[1]/div/div/section/main/div/header/section/div[2]/div/div/button')
                         button.click()
                         flow1 += 1
-                        print(f'{self.datatime} [{self.login}] - Подписок за сутки [{flow1}/{self.max_like_day}]')
+                        print(f'{datatime_m()} [{self.login}] - Подписок за сутки [{flow1}/{self.max_like_day}]')
                         sleep(self.time_sleep)
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                        print(f'{self.datatime} [{self.login}] - Ищем ссылки на фото в аке выбираем фото (одно)')
+
+                        print(f'{datatime_m()} [{self.login}] - Ищем ссылки на фото в аке выбираем фото (одно)')
                         new_hrefs_foto_account = browser.find_elements_by_tag_name('a')
                         new_post_urls_foto_account = []
                         for r in new_hrefs_foto_account:
                             new_href_foto_account = r.get_attribute('href')
                             if '/p/' in new_href_foto_account:
                                 new_post_urls_foto_account.append(new_href_foto_account)
-                        print(f'{self.datatime} [{self.login}] - Нашли фото')
+                        print(f'{datatime_m()} [{self.login}] - Нашли фото')
+                        new_post_urls_foto_account = set(new_post_urls_foto_account)
+                        new_post_urls_foto_account = list(new_post_urls_foto_account)
                         for new_url_foto_account in new_post_urls_foto_account[0:1]:
                             browser.get(new_url_foto_account)
                             sleep(self.time_sleep)
-                            comment = browser.find_element_by_xpath('/html/body/div[1]/section/main/div/div/article/div[3]/section[1]/span[2]/button/div/svg').click()
+
+                            browser.find_element_by_xpath(
+                                '/html/body/div[1]/div/div/section/main/div/div/article/div[3]/section[1]/span[1]/button').click()
+                            lik1 += 1
+                            print(f'{datatime_m()} [{self.login}] - Лайков за сутки [{lik1}/{self.max_like_day}]')
+                            sleep(self.time_sleep)
+                            # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            browser.find_element_by_css_selector('button[class="wpO6b  "]').click()
+                            comment = browser.find_element_by_class_name("Ypffh")
                             comment.send_keys(my_coments)
                             ckick = browser.find_element_by_css_selector('button[type="submit"]')
                             ckick.click()
                             com1 += 1
-                            print(f'{self.datatime} [{self.login}] - Комментариев за сутки [{com1}/{self.max_like_day}]')
-                            sleep(self.time_sleep)
-
-                            browser.find_element_by_xpath(
-                                # '/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[1]/span[1]/button'
-                                '/html/body/div[1]/section/main/div/div/article/div[3]/section[1]/span[1]/button').click()
-                            lik1 += 1
-                            sleep(self.time_sleep)
-                            print(f'{self.datatime} [{self.login}] - Лайков за сутки [{lik1}/{self.max_like_day}]')
+                            print(
+                                f'{datatime_m()} [{self.login}] - Комментариев за сутки [{com1}/{self.max_like_day}]')
                             sleep(self.time_sleep_like)
 
-            if lik1 >= self.max_like_day and com1 >= self.max_like_day and flow1 >= self.max_like_day:
-                print(f'{self.datatime} [{self.login}] - Cуточный лимит лайков комментариев и подписок')
-                print(f'{self.datatime} [{self.login}] - Нужно отдохнуть и дальше работать')
+            if lik1 >= self.max_like_day or com1 >= self.max_like_day or flow1 >= self.max_like_day:
+                print(f'{datatime_m()} [{self.login}] - Исчерпан суточный лимит лайков | комментариев | подписок')
+                print(f'{datatime_m()} [{self.login}] - Нужно отдохнуть и дальше работать')
                 continue
             else:
                 continue
@@ -397,7 +408,6 @@ def run(login, password):
     """
 
     instagramm = LogicInstagramm(login, password)
-
     print(f'==================================================================================================')
     print(f'                                  Привет {login}')
     print(f'==================================================================================================')

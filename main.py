@@ -319,11 +319,11 @@ class LogicInstagramm:
                             # комментарии
                             browser.find_element_by_xpath(
                                 '/html/body/div[1]/div/div/section/main/div/div[1]/article/div[3]/section[1]/span[2]/button').click()
-                            sleep(self.time_sleep)
+                            sleep(3)
                             browser.find_element_by_xpath('//textarea').click()
                             comment = browser.find_element_by_tag_name('textarea')
                             comment.send_keys(my_coments)
-                            sleep(self.time_sleep)
+                            sleep(3)
                             browser.find_element_by_css_selector('button[type="submit"]').click()
                             com1 += 1
                             print(

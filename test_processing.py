@@ -21,11 +21,15 @@ password_input.send_keys('123456789qQ')
 login = browser.find_element_by_css_selector('button[type="submit"]')
 login.click()
 sleep(3)
-b= browser.get('https://www.instagram.com/p/CQ_ZEhQnLsC/')
+browser.get('https://www.instagram.com/p/CQ_ZEhQnLsC/')
 sleep(3)
-a = browser.find_elements_by_xpath('/html/body/div[1]/div/div/section/main/div/div[1]/article/header/div[2]/div[1]/div/span/a')
-a = a[0]
-print(f'{b}------ ваделец {a}')
+browser.find_element_by_xpath('/html/body/div[1]/div/div/section/main/div/div[1]/article/div[3]/section[1]/span[2]/button').click()
+sleep(3)
+browser.find_element_by_xpath('//textarea').click()
+comment = browser.find_element_by_tag_name('textarea')
+comment.send_keys('Класс')
+sleep(3)
+browser.find_element_by_css_selector('button[type="submit"]').click()
 # print(
 #         '░░░░░░░░░░░░▄▄░░░░░░░░░░░░░░\n'
 #         '░░░░░░░░░░░█░░█░░░░░░░░░░░░░\n'

@@ -178,7 +178,7 @@ class LogicInstagramm:
                     # todo логику почистить
                     try:
                         count_like_button = browser.find_element_by_xpath(
-                            '/html/body/div[1]/div/div/section/main/div/div[1]/article/div[3]/section[2]/div/div/a/span')
+                            '/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[2]/div/div/a/span')
                     except:
                         link += 1
                         break

@@ -34,19 +34,44 @@ password_input.send_keys('123456789q')
 login = browser.find_element_by_css_selector('button[type="submit"]')
 login.click()
 sleep(3)
-browser.get('https://www.instagram.com/p/CQ_ZEhQnLsC/')
+browser.get('https://www.instagram.com/p/CQ_sMiVnjJH/')
 sleep(3)
-browser.find_element_by_xpath(
 
-    '/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[1]/span[2]/button'
 
-).click()
+count_like_button = browser.find_element_by_xpath(
+        '/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[2]/div/div/a/span')
+
+
+if count_like_button:
+    count_like_button_text = count_like_button.text
+    count_like = int(count_like_button_text.split(' ')[0])
+    print(f' Количество лайков - {count_like}')
+    if count_like < 12:
+        loop_count = 12
+    else:
+        loop_count = int(count_like / 12)
+else:
+    print(
+        f' - Лайков нету на - https://www.instagram.com/p/CQ_sMiVnjJH/')
+
+count_like_button.click()
 sleep(3)
-browser.find_element_by_xpath('//textarea').click()
-comment = browser.find_element_by_tag_name('textarea')
-comment.send_keys(com)
-sleep(3)
-browser.find_element_by_css_selector('button[type="submit"]').click()
+
+
+
+
+
+# browser.find_element_by_xpath(
+#
+#     '/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[1]/span[2]/button'
+#
+# ).click()
+# sleep(3)
+# browser.find_element_by_xpath('//textarea').click()
+# comment = browser.find_element_by_tag_name('textarea')
+# comment.send_keys(com)
+# sleep(3)
+# browser.find_element_by_css_selector('button[type="submit"]').click()
 # print(
 #         '░░░░░░░░░░░░▄▄░░░░░░░░░░░░░░\n'
 #         '░░░░░░░░░░░█░░█░░░░░░░░░░░░░\n'

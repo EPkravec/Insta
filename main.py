@@ -88,7 +88,7 @@ class LogicInstagramm:
         print(f'{datatime_m()} [{self.login}] - Привет приступаем, ну что ж приступим к работе')
         print(f'{datatime_m()} [{self.login}] - Пауза между основными операциями ~ {self.time_sleep} сек')
         print(f'{datatime_m()} [{self.login}] - Пауза между скролами ~ {self.time_sleep_scroll} сек')
-        print(f'{datatime_m()} [{self.login}] - Пауза между действиями ~ {self.sleeping:}')
+        print(f'{datatime_m()} [{self.login}] - Пауза между действиями ~ {self.sleeping:} сек')
         print(f'{datatime_m()} [{self.login}] - Количество действий в сутки {self.max_action}')
         print(f'{datatime_m()} [{self.login}] - Количество действий в час {self.max_action_hour}')
         print(f'{datatime_m()} [{self.login}] - Количество используемых тегов {self.count_tags}')

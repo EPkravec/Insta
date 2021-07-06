@@ -318,7 +318,7 @@ class LogicInstagramm:
                             sleep(self.time_sleep)
                             # комментарии
                             browser.find_element_by_xpath(
-                                '/html/body/div[1]/div/div/section/main/div/div[1]/article/div[3]/section[1]/span[2]/button').click()
+                                '/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[1]/span[2]/button').click()
                             sleep(3)
                             browser.find_element_by_xpath('//textarea').click()
                             comment = browser.find_element_by_tag_name('textarea')

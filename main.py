@@ -132,6 +132,29 @@ class LogicInstagramm:
         login.click()
         sleep(self.time_sleep_login)
 
+    def link_tags_in_instagramm(self):
+        """
+        Ф-я парсит и записывает в файл ссылки фотографий по тегу
+        """
+        name_directory = 'link_in_tags'
+        os.mkdir(f'{name_directory}')
+        my_hashtags = self.tags()
+
+        browser = self.browser
+        browser.get(f'https://www.instagram.com/explore/tags/{my_hashtags}/')
+        sleep(self.time_sleep)
+
+        for i in range(1, self.count_scrolling):
+            browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            sleep(self.time_sleep_scroll)
+
+        hrefs = browser.find_elements_by_tag_name('a')
+        posts_urls = [item.get_attribute('href') for item in hrefs if "/p/" in item.get_attribute('href')]
+
+        with open(f" {name_directory}/{my_hashtags}.txt", "a") as text_file:
+            for url in posts_urls:
+                text_file.write(url + "\n")
+
     def like_photo_by_hashtag(self):
         """
         Ф-я ставит лайки по hashtag
@@ -247,7 +270,8 @@ class LogicInstagramm:
         """
         browser = self.browser
         browser.get(userpage)
-        sleep(self.time_sleep)
+        # sleep(self.time_sleep)
+        sleep(2)
         file_name = userpage.split("/")[-2]
         # создаём папку с именем пользователя для чистоты проекта
         if os.path.exists(f"{file_name}"):
@@ -260,26 +284,31 @@ class LogicInstagramm:
             print(f'{datatime_m()} [{self.login}] - Такого пользователя не существует, провете юрл')
             self.close_browser()
         else:
-            sleep(self.time_sleep)
+            # sleep(self.time_sleep)
+            sleep(2)
             followers_button = browser.find_element_by_xpath(
-                "/html/body/div[1]/section/main/div/header/section/ul/li[2]/a/span")
+                "/html/body/div[1]/section/main/div/ul/li[2]/a/span"
+                "")
             followers_count = followers_button.get_attribute('title')
             # если количество подписчиков больше 999, убираем из числа запятые
-            if ',' in followers_count:
-                followers_count = int(''.join(followers_count.split(',')))
+            if ' ' in followers_count:
+                followers_count = int(''.join(followers_count.split(' ')))
             else:
                 followers_count = int(followers_count)
             print(f"{datatime_m()} [{self.login}] - Количество подписчиков: {followers_count}")
-            sleep(self.time_sleep)
+            # sleep(self.time_sleep)
+            sleep(2)
             loops_count = int(followers_count / 12)
             followers_button.click()
-            sleep(self.time_sleep)
-            followers_ul = browser.find_element_by_xpath("/html/body/div[4]/div/div/div[2]")
+            # sleep(self.time_sleep)
+            sleep(2)
+            followers_ul = browser.find_element_by_xpath("/html/body/div[4]/div/div")
             try:
                 followers_urls = []
                 for i in range(1, loops_count + 1):
                     browser.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", followers_ul)
-                    sleep(self.time_sleep_scroll)
+                    # sleep(self.time_sleep_scroll)
+                    sleep(0.2)
                 all_urls_div = followers_ul.find_elements_by_tag_name("li")
                 for url in all_urls_div:
                     url = url.find_element_by_tag_name("a").get_attribute("href")
@@ -359,20 +388,6 @@ def run(login, password):
 
     instagramm = LogicInstagramm(login, password)
     print(
-        '░░░░░░░░░░░░▄▄░░░░░░░░░░░░░░\n'
-        '░░░░░░░░░░░█░░█░░░░░░░░░░░░░\n'
-        '░░░░░░░░░░░█░░█░░░░░░░░░░░░░\n'
-        '░░░░░░░░░░█░░░█░░░░░░░░░░░░░\n'
-        '░░░░░░░░░█░░░░█░░░░░░░░░░░░░\n'
-        '██████▄▄█░░░░░██████▄░░░░░░░\n'
-        '▓▓▓▓▓▓█░░░░░░░░░░░░░░█░░░░░░\n'
-        '▓▓▓▓▓▓█░░░░░░░░░░░░░░█░░░░░░\n'
-        '▓▓▓▓▓▓█░░░░░░░░░░░░░░█░░░░░░\n'
-        '▓▓▓▓▓▓█░░░░░░░░░░░░░░█░░░░░░\n'
-        '▓▓▓▓▓▓█░░░░░░░░░░░░░░█░░░░░░\n'
-        '▓▓▓▓▓▓█████░░░░░░░░░██░░░░░░\n'
-        '█████▀░░░░▀▀████████░░░░░░░░\n'
-        '░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n'
         '╔════╗░░╔════╗╔═══╗░░░░░░░░░\n'
         '║████║░░║████║║███╠═══╦═════╗\n'
         '╚╗██╔╝░░╚╗██╔╩╣██╠╝███║█████║\n'
@@ -383,7 +398,7 @@ def run(login, password):
         '╚═══════╩════╩════════╩═════╝\n')
     instagramm.run_browser()
     instagramm.login_go()
-    instagramm.get_all_followers()
+    instagramm.get_all_followers('https://www.instagram.com/gusevamr/')
 
 
 if __name__ == "__main__":

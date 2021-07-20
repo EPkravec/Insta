@@ -85,7 +85,7 @@ class LogicInstagramm:
         browser = webdriver.Chrome(options=self.options_argument())
         browser.set_window_rect(width=750, height=1050)
 
-        print(f'{datatime_m()} [{self.login}] - Привет приступаем, ну что ж приступим к работе')
+        print(f'{datatime_m()} [{self.login}] - Привет приступим к работе')
         print(f'{datatime_m()} [{self.login}] - Пауза между основными операциями ~ {self.time_sleep} сек')
         print(f'{datatime_m()} [{self.login}] - Пауза между скролами ~ {self.time_sleep_scroll} сек')
         print(f'{datatime_m()} [{self.login}] - Пауза между действиями ~ {self.sleeping:} сек')
@@ -375,7 +375,7 @@ def run(login, password):
 
 if __name__ == "__main__":
     Process(target=run, args=('Rabota_v_dekreteizdoma', '123456789q')).start()
-    sleep(5)
-    Process(target=run, args=('dekret_rabota_olga', '123456789q')).start()
-    sleep(5)
-    Process(target=run, args=('rabo.tavradosti', '123456789qQ')).start()
+
+    # Process(target=run, args=('dekret_rabota_olga', '123456789q')).start()
+
+    # Process(target=run, args=('rabo.tavradosti', '123456789qQ')).start()

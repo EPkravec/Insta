@@ -383,7 +383,7 @@ def run(login, password):
         '╚═══════╩════╩════════╩═════╝\n')
     instagramm.run_browser()
     instagramm.login_go()
-    instagramm.like_photo_by_hashtag()
+    instagramm.get_all_followers()
 
 
 if __name__ == "__main__":
